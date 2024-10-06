@@ -38,10 +38,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter); // ใช้ router ที่ถูกต้อง
-app.use('/products', products);
-app.use('/customers', customersRouter);
+app.use('/api/', indexRouter);
+app.use('/api/users', usersRouter); // ใช้ router ที่ถูกต้อง
+app.use('/api/products', products);
+app.use('/api/customers', customersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
