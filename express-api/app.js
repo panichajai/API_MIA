@@ -16,7 +16,7 @@ mongoose.connect(MONGO_URI)
   .then(() => console.log('connection successfully!'))
   .catch((err) => console.error('can not connect :',err))
 
-var indexRouter = require('./routes/index');
+var indexRouter = require('./routes/index.js');
 var usersRouter = require('./routes/users'); 
 var customersRouter = require('./routes/customers');
 

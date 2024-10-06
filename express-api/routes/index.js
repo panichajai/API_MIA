@@ -1,9 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'API MIA' });
+  const currentTime = new Date();
+  res.send(`This is my API MIA running... Current time: ${currentTime}`);
+});
+
+router.get('/heatcheck', function(req, res, next) {
+  const currentTime = new Date();
+  res.send(`This is my about route. Current time: ${currentTime}`);
 });
 
 module.exports = router;
