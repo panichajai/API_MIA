@@ -6,10 +6,13 @@ var logger = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors'); // นำเข้า CORS
 const products = require('./routes/products');
+require('dotenv').config();
 
 mongoose.Promise = global.Promise;
+const PORT = process.env.PORT || 5000;
+const MONGO_URI = process.env.MONGO_URI;
 
-mongoose.connect('mongodb+srv://panicha:250917@cluster0.lovw9.mongodb.net/')
+mongoose.connect(MONGO_URI)
   .then(() => console.log('connection successfully!'))
   .catch((err) => console.error('can not connect :',err))
 
