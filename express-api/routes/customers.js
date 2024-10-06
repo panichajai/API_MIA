@@ -55,7 +55,11 @@ router.post('/', async (req, res, next) => {
         console.log()
         return res.status(400).json(new ResponseModel(400, false, 'Missing required fields'));
     }
-  
+    
+    if (!['male', 'female'].includes(customer_gender)) {
+    return res.status(400).json({ message: 'Invalid gender' });
+  }
+
     try {
       // ตรวจสอบว่ามีลูกค้าด้วยหมายเลขบัตรประชาชนนี้หรือไม่
       const customer = await Customer.findOne({ customer_idCard });
