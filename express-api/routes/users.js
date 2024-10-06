@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/User'); // นำเข้าโมเดล User
-var bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 var ResponseModel = require('../models/ResponseModel');
-
+const jwt = require('jsonwebtoken');
+const secretKey = 'secretKey'; 
 // POST: เส้นทางสำหรับล็อกอิน
 router.post('/login', async (req, res, next) => {
     console.log('req login : ' , req.body)
@@ -18,10 +19,21 @@ router.post('/login', async (req, res, next) => {
         }
    
         const isMatch = await bcrypt.compare(user_password, user.user_password);
-        console.log('isMatch : ',isMatch )
+        if (isMatch) {
+            console.log('login successful : ')
 
-        console.log('login successful : ' )
-        res.status(200).json(new ResponseModel(200, true, 'successful',null,null));
+            // สร้าง token โดยใช้ user ID และ secret key
+            const token = jwt.sign(
+                { id: user._id, email: user.user_email }, // payload
+                secretKey, // secret key สำหรับเข้ารหัส
+                { expiresIn: '1h' } // token มีอายุ 1 ชั่วโมง
+            );
+
+            // ส่ง token กลับไปใน response
+            return res.status(200).json(new ResponseModel(200, true, 'successful', token, null));
+        } else {
+            return res.status(401).json(new ResponseModel(401, false, 'Password incorrect'));
+        }
     } catch (err) {
         console.error('Error during login:', err);
         res.status(501).json(new ResponseModel(501, false, 'error',null,err));
